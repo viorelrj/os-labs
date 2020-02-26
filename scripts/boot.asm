@@ -1,21 +1,28 @@
-org 0x7c00; BIOS loads at this address
+org 0x7c00			; BIOS loads at this address
+bits 16				; use 16 bits
 
-bits 16; use 16 bits
+	
+boot:
+	mov dl, 40
+	mov dh, 12
+	mov ah, 2
+	mov bh, 0
+	int 10h
 
-start:
-	cli			;disable interrupts
+	mov si, msg
+	mov ah, 0x0e
 
-	mov si, msg		;SI points to message
-	mov ah, 0x0e		;Print char service (14)
-
-.loop	lodsb
-	or al, al		;Is end of string?
+.loop:
+	lodsb
+	or al, al
 	jz halt
-	int 0x10		;print char
-	jmp .loop		;next char
+	int 0x10
+	jmp .loop
 
-halt: 	hlt
+halt:
+	cli
+	hlt
 
-msg: 	db "Henlo, Wobbleraslkdgnawe hglkadf ajdfnawekljgn!", 0
 
-;nasm -f bin -o os.bin boot.asm
+msg db "Hello World", 0
+

@@ -11,8 +11,10 @@ then
 	rm $2
 fi
 
+printf "\n\n\n"
 #Compile the sourcecode
 nasm -f bin -o $2.bin $1
+printf "\n\n\n"
 
 #Appender
 SRC_SIZE=$(stat -c%s "$2.bin")
